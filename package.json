@@ -1,0 +1,54 @@
+{
+  "name": "grunt-mpt",
+  "description": "mpt debug",
+  "version": "0.1.0",
+  "homepage": "https://github.com/jeakey/grunt-mpt",
+  "author": {
+    "name": "jeakey"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeakey/grunt-mpt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jeakey/grunt-mpt/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-watch": "*",
+    "grunt-newer": "*"
+  },
+  "dependencies": {
+    "grunt": "~0.4.1",
+    "request": "*",
+    "fs-extra": "*"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.1"
+  },
+  "keywords": [
+    "gruntplugin"
+  ],
+  "_npmUser": {
+    "name": "jeakey",
+    "email": "jeakey@qq.com"
+  },
+  "maintainers": [
+    {
+      "name": "joriami",
+      "email": "jeakey@qq.com"
+    }
+  ],
+  "directories": {}
+}
