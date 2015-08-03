@@ -87,7 +87,9 @@ grunt.initConfig({
   mpt: {
     options: {
       id:"gamecenter",
-      urlrandom:true
+      urlrandom:true,
+      dir:"test",
+      prefix:"test"
     },
     files: [{
       expand: true,
@@ -102,30 +104,36 @@ grunt.initConfig({
 ```js
 grunt.initConfig({
   mpt: {
-    options: {
-      id:"gamecenter"
-    },
-    single:{
-      options:{
-        action:"changed"
+      options: {
+        id:"gamecenter",
+        urlrandom:false,
+        prefix:dir,
+        dir:"test"
       },
-      src:["test/index.html"]
-      
-    }
-  }
-  watch:{
-      main: {
-          files: [
-             'test/**'
-          ],
-          tasks:["mpt:single"]
+      single:{
+        options:{
+          action:"changed"
+        },
+        src:"<%= currentPath %>"
+        
       }
-  }
+    },
+    watch:{
+      main: {
+        options: {
+          spawn: false,
+         
+      },
+        files: [
+           'test/**'
+        ]
+      }
+
+    }
 })
 grunt.event.on('watch',function(action,filepath,target){
-    var filepath=filepath.replace("\\","/");
-    grunt.config('mpt.single.src',[filepath]);
-    
- });
+    grunt.config('currentPath',filepath);
+    grunt.task.run("mpt:single");
+});
 
 ```
