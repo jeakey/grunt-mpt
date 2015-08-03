@@ -49,6 +49,17 @@ Default value: `(random string)`
 
 用来映射本地文件的服务器目录。
 
+#### options.prefix
+Type: `String`
+Default value: ``
+
+本地目录前缀，同步服务器的目录会将前缀去掉
+
+#### options.dir
+Type: `String`
+Default value: ``
+
+服务器存放当前项目的目录
 
 ### Usage Examples
 

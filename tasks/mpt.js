@@ -12,7 +12,6 @@ module.exports = function(grunt) {
 	var path = require('path');
 	var request = require('request');
 	var fs = require('fs-extra');
-	var opn = require('opn');
 	var fileExp = /(\.png|\.jpg|\.jpeg|\.gif|\.css|\.html|\.htm|\.shtml|\.txt|\.swf|\.json|\.xml|\.js|\.swf|\.mp3|\.mp4|\.wav|\.svg|\.ttf|\.woff|\.eot|\.ogg|\.inc)$/i;
 	function fp(path) {
 	    var path = path.replace(/\\+/g, '/');
@@ -124,18 +123,27 @@ module.exports = function(grunt) {
 	    return str;
 	}
 	var byInit=1;
+	
 	grunt.registerMultiTask('mpt', 'mpt debug', function() {
 		
 		var done = this.async();
 		var filesSrc=this.filesSrc;
+	
+		
 		var options = this.options({
             website:'http://digg.tgideas.qq.com/h5test/',
             id:randomString(5),
             src:"",
+            dir:"",
+            prefix:"",
             urlrandom:false,
             origin: 'http://mpt.webplat.ied.com',
         	Referer: 'http://mpt.webplat.ied.com/index.php/Act/h5test.html'
         });
+
+        options.prefix=path.resolve(options.prefix);
+		options.prefix=options.prefix.replace(new RegExp("\\\\","gm"),"/");
+		
 		
 		var finished=0,
         	processed=filesSrc.length,
@@ -164,12 +172,15 @@ module.exports = function(grunt) {
 		}
 		options.random=cache.random;
 		options.id=options.urlrandom?(options.id+cache.random):options.id;
+		
 		for(var i=0;i<filesSrc.length;i++){
+			
+			filesSrc[i]=path.resolve(filesSrc[i]);
 			var extName = path.extname(filesSrc[i]),
-				srcPath = filesSrc[i],
-				dirName = path.dirname(filesSrc[i]),
+				srcPath = filesSrc[i].replace(new RegExp("\\\\","gm"),"/"),
+				dirName = options.dir+"/"+path.dirname(srcPath).replace(options.prefix,""),
 				baseName = path.basename(srcPath, extName); // filename without extension
-
+			
 			var st = fs.statSync(srcPath);
 
             //判断是不是符合的文件类型

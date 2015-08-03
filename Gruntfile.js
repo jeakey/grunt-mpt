@@ -11,7 +11,9 @@
 module.exports = function(grunt) {
 	grunt.loadTasks('tasks');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	var path=require("path");
 	// Project configuration.
+	var dir = "test/";
 	grunt.initConfig({
 		
 
@@ -19,12 +21,14 @@ module.exports = function(grunt) {
 		mpt: {
 			options: {
 				id:"gamecenter",
-				urlrandom:false
+				urlrandom:false,
+				prefix:dir,
+				dir:"test"
 			},
 			update: {
 				files: [{
 					expand: true,
-					cwd: 'test',
+					cwd: dir,
 					src: ['**']
 				}]
 			},
@@ -32,19 +36,21 @@ module.exports = function(grunt) {
             	options:{
             		action:"changed"
             	},
-            	src:["test/index.html"]
+            	src:"<%= currentPath %>"
             	
             },
 			
 		},
 		watch:{
 			main: {
+				options: {
+		              spawn: false,
+		             
+		         },
                 files: [
                    'test/**'
-                ],
-                tasks:["mpt:single"]
+                ]
             }
-            
 
 		}
 
@@ -52,13 +58,10 @@ module.exports = function(grunt) {
 
 	});
 	grunt.event.on('watch',function(action,filepath,target){
-		var filepath=filepath.replace("\\","/");
-       	grunt.config('mpt.single.src',[filepath]);
-        
-     });
+       	grunt.config('currentPath',filepath);
+       	grunt.task.run("mpt:single");
+    });
 
-	// Whenever the "test" task is run, first clean the "tmp" dir, then run this
-	// plugin's task(s), then test the result.
 	grunt.registerTask('default', ['mpt:update','watch']);
 
 
